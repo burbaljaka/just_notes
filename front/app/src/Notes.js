@@ -1,6 +1,12 @@
 import React from 'react';
 import { useQuery, useMutation } from 'react-apollo';
 import { gql } from 'apollo-boost';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 
 const QUERY_NOTES = gql`
     query{
@@ -43,10 +49,14 @@ export function TitleInfo() {
   if (loading) return <p>Loading...</p>;
   return data.notes.edges.map(function(obj){
       return (
-      <div key={obj.node.id}>
-          <h3>{obj.node.id}: {obj.node.title}</h3>
-          <p>{obj.node.body}</p>
-      </div>
+
+          <Container key={obj.node.id}>
+              <Row>
+                  <Col><p>{obj.node.id}</p></Col>
+                  <Col><p>{obj.node.title}</p></Col>
+                  <Col><p>{obj.node.body}</p></Col>
+              </Row>
+          </Container>
   )});
 }
 
@@ -54,7 +64,7 @@ export function CreateNote() {
     let inputTitle, inputBody;
     const [createNote, { data }  ] = useMutation(CREATE_NOTE);
     return (
-        <div>
+        <Container>
             <form
                 onSubmit={e => {
                     e.preventDefault();
@@ -67,22 +77,23 @@ export function CreateNote() {
                 }}
                 style = {{ marginTop: '2em', marginBottom: '2em' }}
             >
-                <label>Title: </label>
-                <input
-                    ref={node => {
-                        inputTitle = node;
-                    }}
-                    style={{ marginRight: '1em' }}
-                />
-                <label>Body: </label>
-                <input
-                    ref={node => {
-                        inputBody = node;
-                    }}
-                    style={{ marginRight: '1em' }}
-                />
-
-                <button type="submit" style={{ cursor: 'pointer' }}>Add a Note</button>
+                <Row>
+                    <Col><label>Title: </label>
+                    <input
+                        ref={node => {
+                            inputTitle = node;
+                        }}
+                        style={{ marginRight: '1em' }}
+                    /></Col>
+                    <Col><label>Body: </label>
+                    <input
+                        ref={node => {
+                            inputBody = node;
+                        }}
+                        style={{ marginRight: '1em' }}
+                    /></Col>
+                    <button type="submit" style={{ cursor: 'pointer' }} class="btn btn-danger">Add a Note</button>
+                </Row>
             </form>
-        </div>
+        </Container>
     );}
