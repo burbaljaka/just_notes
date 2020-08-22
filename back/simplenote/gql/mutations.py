@@ -10,20 +10,16 @@ class NoteSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'body']
 
 
-class NoteInputType(InputObjectType):
-    title = String()
-    body = String()
-
-
 class NoteCreate(Mutation):
     class Arguments:
-        input = NoteInputType(required=True)
+        title = String()
+        body = String()
 
     note = Field(NoteType)
 
     @classmethod
     def mutate(cls, root, info, **data):
-        serializer = NoteSerializer(data=data.get('input'))
+        serializer = NoteSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         return NoteCreate(serializer.save())
 
