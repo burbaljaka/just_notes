@@ -3,7 +3,7 @@ from .filters import NoteFilter
 from notes.models import Note
 from .types import NoteType
 from graphene_django.filter import DjangoFilterConnectionField
-from .mutations import NoteDelete, NoteCreate
+from .mutations import NoteDelete, NoteCreate, ThemeCreate, NoteUpdate
 
 
 class Query(ObjectType):
@@ -19,7 +19,9 @@ class Query(ObjectType):
 
 class Mutation(ObjectType):
     note_create = NoteCreate.Field()
+    note_update = NoteUpdate.Field()
     note_delete = NoteDelete.Field()
+    theme_create = ThemeCreate.Field()
 
 
 schema = Schema(query=Query, mutation=Mutation)

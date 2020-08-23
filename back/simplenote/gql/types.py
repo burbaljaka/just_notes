@@ -1,5 +1,12 @@
 from graphene_django import DjangoObjectType
-from notes.models import Note
+from graphene import Field
+from notes.models import Note, Theme
+
+
+class ThemeType(DjangoObjectType):
+    class Meta:
+        model = Theme
+        only_fields = ('id', 'name')
 
 
 class NoteType(DjangoObjectType):
@@ -9,6 +16,7 @@ class NoteType(DjangoObjectType):
             'id',
             'title',
             'body',
-            'created_at'
+            'created_at',
+            'theme'
         )
         use_connection = True
